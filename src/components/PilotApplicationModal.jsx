@@ -261,8 +261,8 @@ export default function PilotApplicationModal({ onClose }) {
 
       console.log('📤 Payload being sent:', JSON.stringify(payload, null, 2));
       console.log('📤 Sending to /api/leads/apply-pilot with:', payload);
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
-      const e.log('✅ Response received:', response.data);
+      const response = await axios.post(`${API_BASE_URL}/leads/apply-pilot`, payload)
+      console.log('✅ Response received:', response.data);
 
       if (response.data.disqualified) {
         setQualificationResult('disqualified')
