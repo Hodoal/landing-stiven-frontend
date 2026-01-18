@@ -214,9 +214,9 @@ export default function PilotApplicationModal({ onClose }) {
         main_problem: responses.main_problem || [],
         ...formData
       }
-API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
-      const response = await axios.post(`${API_BASE_URL}/leads/apply-pilot`
-      const response = await axios.post('/api/leads/apply-pilot', payload)
+
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+      const response = await axios.post(`${API_BASE_URL}/leads/apply-pilot`, payload)
 
       if (response.data.disqualified) {
         setQualificationResult('disqualified')
