@@ -19,6 +19,8 @@ export default function PilotApplicationModal({ onClose }) {
   const [availableTimes, setAvailableTimes] = useState([])
   const [consultantId, setConsultantId] = useState(null)
   const [timesLoading, setTimesLoading] = useState(false)
+  
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
 
   // 6 PREGUNTAS ORIGINALES
   const questions = [
@@ -113,7 +115,6 @@ export default function PilotApplicationModal({ onClose }) {
 
   const loadDefaultConsultant = async () => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
       const response = await axios.get(`${API_BASE_URL}/consultants`)
       if (response.data && response.data.length > 0) {
         setConsultantId(response.data[0]._id || response.data[0].id)
@@ -128,8 +129,7 @@ export default function PilotApplicationModal({ onClose }) {
       setTimesLoading(true)
       const dateString = typeof date === 'string' ? date : date.toISOString().split('T')[0]
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
-      const response = await axios.get(`${API_BASE_URL}/consultants/${consultantId}/available-times`, {
-        params: { date: dateString, duration: 60 }
+      const ms: { date: dateString, duration: 60 }
       })
       
       const times = response.data.availableTimes || []
@@ -215,7 +215,6 @@ export default function PilotApplicationModal({ onClose }) {
         ...formData
       }
 
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
       const response = await axios.post(`${API_BASE_URL}/leads/apply-pilot`, payload)
 
       if (response.data.disqualified) {
@@ -263,8 +262,7 @@ export default function PilotApplicationModal({ onClose }) {
       console.log('📤 Payload being sent:', JSON.stringify(payload, null, 2));
       console.log('📤 Sending to /api/leads/apply-pilot with:', payload);
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
-      const response = await axios.post(`${API_BASE_URL}/leads/apply-pilot`, payload)
-      console.log('✅ Response received:', response.data);
+      const e.log('✅ Response received:', response.data);
 
       if (response.data.disqualified) {
         setQualificationResult('disqualified')

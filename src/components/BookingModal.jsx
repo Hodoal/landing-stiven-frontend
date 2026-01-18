@@ -21,6 +21,8 @@ function BookingModal({ onClose }) {
   const [bookedSlots, setBookedSlots] = useState([])
   const [allSlots, setAllSlots] = useState([]) // Nuevo: todos los slots del día
   const [consultantId, setConsultantId] = useState(null)
+  
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
 
   useEffect(() => {
     // Cargar primer consultor disponible
@@ -35,7 +37,6 @@ function BookingModal({ onClose }) {
 
   const loadDefaultConsultant = async () => {
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
       const response = await axios.get(`${API_BASE_URL}/consultants`)
       if (response.data && response.data.length > 0) {
         setConsultantId(response.data[0]._id || response.data[0].id)
@@ -70,7 +71,6 @@ function BookingModal({ onClose }) {
         const day = String(date.getDate()).padStart(2, '0')
         const localDateString = `${year}-${month}-${day}`
         
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
         const response = await axios.get(`${API_BASE_URL}/consultants/${consultantId}/available-times`, {
           params: { date: localDateString, duration: 60 }
         })
