@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AdminPanel from '../admin/AdminPanel'
 import './AdminPage.css'
 
-function AdminPage({ onExit }) {
+function AdminPage() {
+  const navigate = useNavigate()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -35,7 +37,7 @@ function AdminPage({ onExit }) {
     sessionStorage.removeItem('adminAuthenticated')
     setIsAuthenticated(false)
     setPassword('')
-    if (onExit) onExit()
+    navigate('/')
   }
 
   if (!isAuthenticated) {

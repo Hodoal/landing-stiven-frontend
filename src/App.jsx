@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -16,47 +17,15 @@ import BookingModal from './components/BookingModal'
 import AdminPage from './pages/AdminPage'
 import './index.css'
 
-function App() {
+function HomePage() {
   const [showPilotModal, setShowPilotModal] = useState(false)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [showFloatingButton, setShowFloatingButton] = useState(false)
-  const [currentPage, setCurrentPage] = useState('home')
-
-  useEffect(() => {
-    // Check URL for admin page
-    if (window.location.pathname === '/admin') {
-      setCurrentPage('admin')
-    } else {
-      setCurrentPage('home')
-    }
-
-    // Listen for URL changes
-    const handlePopState = () => {
-      if (window.location.pathname === '/admin') {
-        setCurrentPage('admin')
-      } else {
-        setCurrentPage('home')
-      }
-    }
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
-
-  const navigateToAdmin = () => {
-    window.history.pushState(null, '', '/admin')
-    setCurrentPage('admin')
-  }
-
-  const navigateToHome = () => {
-    window.history.pushState(null, '', '/')
-    setCurrentPage('home')
-  }
 
   // Resetear scroll al inicio
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [currentPage])
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,10 +36,6 @@ function App() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  if (currentPage === 'admin') {
-    return <AdminPage onExit={navigateToHome} />
-  }
 
   return (
     <div className="app">
@@ -100,6 +65,17 @@ function App() {
         <BookingModal onClose={() => setShowBookingModal(false)} />
       )}
     </div>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </Router>
   )
 }
 
